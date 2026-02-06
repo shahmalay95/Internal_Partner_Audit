@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONFIDENTIAL_PARTNER_REVIEW_2026</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --romance-red: #ff4d6d;
+            --soft-rose: #fff0f3;
+            --deep-maroon: #590d22;
+            --gold-accent: #f9dcc4;
+            --paper: #ffffff;
+        }
+
+        body { 
+            font-family: 'Georgia', serif; 
+            background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
+            margin: 0; padding: 40px 20px;
+            min-height: 100vh;
+            display: flex; justify-content: center;
+        }
+
+        canvas { pointer-events: none !important; position: fixed !important; z-index: 1 !important; }
+
+        .audit-card {
+            max-width: 700px;
+            width: 100%;
+            background: var(--paper);
+            background-image: radial-gradient(#fff0f3 1px, transparent 1px);
+            background-size: 20px 20px;
+            border-radius: 40px;
+            box-shadow: 0 30px 60px rgba(89, 13, 34, 0.15);
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+            border: 8px solid white;
+        }
+
+        header { 
+            background: var(--romance-red); 
+            color: white; 
+            padding: 50px 30px; 
+            text-align: center;
+        }
+
+        header h1 { margin: 0; font-size: 2rem; letter-spacing: 1px; text-transform: uppercase; line-height: 1.2; }
+        header p { margin-top: 15px; opacity: 0.9; font-style: italic; }
+
+        .role-definition {
+            background: #fff8f9;
+            padding: 20px 30px;
+            border-bottom: 2px solid var(--gold-accent);
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .role-box b { color: var(--romance-red); display: block; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+        .role-box span { color: var(--deep-maroon); font-size: 1.1rem; font-weight: bold; }
+
+        .status-bar { 
+            background: var(--gold-accent); 
+            padding: 12px 30px; 
+            font-size: 0.8rem; 
+            color: var(--deep-maroon);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex; justify-content: space-between;
+        }
+
+        .content { padding: 40px; }
+
+        h2 { 
+            color: var(--deep-maroon); 
+            font-size: 1.3rem; 
+            margin-bottom: 20px;
+            display: flex; align-items: center;
+        }
+
+        h2::after { content: ""; flex: 1; height: 1px; background: var(--gold-accent); margin-left: 15px; }
+
+        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        td { padding: 18px 10px; border-bottom: 1px solid var(--soft-rose); color: var(--deep-maroon); font-size: 0.95rem; line-height: 1.5; }
+        
+        input[type="checkbox"] { 
+            accent-color: var(--romance-red);
+            transform: scale(1.6);
+            cursor: pointer;
+        }
+
+        .comment-box { 
+            width: 100%; height: 80px; margin-top: 10px; 
+            border: 2px solid var(--gold-accent); border-radius: 15px; padding: 15px;
+            font-family: inherit; font-size: 1rem; outline: none; box-sizing: border-box;
+        }
+
+        .opinion-section {
+            display: none;
+            margin-top: 40px;
+            padding: 35px;
+            background: #fffafa;
+            border-radius: 30px;
+            border: 3px dashed var(--romance-red);
+            text-align: center;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .btn {
+            background: var(--romance-red);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 100px;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.2);
+        }
+
+        .btn:disabled { background: #ffd0d9; color: #ff8fa3; cursor: not-allowed; }
+        
+        #yes-btn { z-index: 100000 !important; animation: pulse 2s infinite; }
+        #no-btn { background: #a4161a; margin-left: 10px; z-index: 5000; }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 77, 109, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0); }
+        }
+
+        #shout-banner {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(2rem, 8vw, 4rem); font-weight: 900;
+            color: var(--deep-maroon); z-index: 1000000; background: white;
+            padding: 40px; border-radius: 30px; border: 8px solid var(--romance-red);
+            text-align: center; width: 80%; pointer-events: none; display: none;
+        }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div id="shout-banner">❤️❤️❤️ Gundi, I Love You! ❤️❤️❤️</div>
+
+<div class="audit-card">
+    <header>
+        <h1>REPORT ON THE AUDIT OF ROMANTIC COMPLIANCE</h1>
+        <p>Fiscal Year: 2026 | Period Ended: Forever</p>
+    </header>
+
+    <div class="role-definition">
+        <div class="role-box">
+            <b>Engagement Partner (Auditor)</b>
+            <span>Shanvi</span>
+        </div>
+        <div style="font-size: 1.5rem; opacity: 0.3;">|</div>
+        <div class="role-box">
+            <b>Client (Subject)</b>
+            <span>Malay</span>
+        </div>
+    </div>
+    
+    <div class="status-bar">
+        <span>WP: VAL-14-FEB</span>
+        <span id="progress-text">Verification: 0%</span>
+    </div>
+
+    <div class="content">
+        <h2>Substantive Testing of Actions</h2>
+        <table>
+            <tr>
+                <td><strong>Routine Controls</strong><br>Does the Client consistently provide required morning kisses, hugs, and "good morning" tea?</td>
+                <td align="right"><input type="checkbox" class="audit-step" onchange="updateProgress()"></td>
+            </tr>
+            <tr>
+                <td><strong>Care & Handling</strong><br>Is the Partner handled with extreme care via small things (opening doors, tucking you in, forehead kisses)?</td>
+                <td align="right"><input type="checkbox" class="audit-step" onchange="updateProgress()"></td>
+            </tr>
+            <tr>
+                <td><strong>Back-end Support</strong><br>Does the Client provide 100% emotional support whenever the Partner has had a long day?</td>
+                <td align="right"><input type="checkbox" class="audit-step" onchange="updateProgress()"></td>
+            </tr>
+            <tr>
+                <td><strong>Communication Accuracy</strong><br>Are "I miss you" pings regularly sent to ensure connection remains in balance?</td>
+                <td align="right"><input type="checkbox" class="audit-step" onchange="updateProgress()"></td>
+            </tr>
+            <tr>
+                <td><strong>Surprise Audit</strong><br>Does the Client proactively execute random surprises to maintain excitement?</td>
+                <td align="right"><input type="checkbox" class="audit-step" onchange="updateProgress()"></td>
+            </tr>
+            <tr>
+                <td><strong>Variance Resolution</strong><br>Does the Client ensure no material variances (arguments) remain unresolved by end-of-day?</td>
+                <td align="right"><input type="checkbox" class="audit-step" onchange="updateProgress()"></td>
+            </tr>
+        </table>
+
+        <h2>Partner Certification</h2>
+        <textarea class="comment-box" id="reviewer-name" placeholder="Partner Shanvi, sign here to certify findings..." onkeyup="updateProgress()"></textarea>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <button id="submit-audit" class="btn" disabled onclick="showOpinion()">FINALIZE FILING</button>
+        </div>
+
+        <div id="opinion-section" class="opinion-section">
+            <h3 style="color: var(--deep-maroon); margin: 0;">UNQUALIFIED ROMANTIC OPINION</h3>
+            <p style="font-style: italic; color: #72091e; margin-top: 10px;">
+                "In my opinion, the Client's actions present fairly, in all material respects, a love that is Generally Accepted Adorable Partner (GAAP) compliant."
+            </p>
+
+            <div id="easter-egg-note" style="margin-top: 15px; font-size: 0.75rem; color: #a4161a; opacity: 0.7; border-top: 1px solid var(--gold-accent); padding-top: 10px;">
+                <strong>Note 14: Key Audit Matter</strong><br>
+                Partner Shanvi has noted that the Client's smile presents a significant risk of distraction. Remedial forehead kisses have been recommended.
+            </div>
+
+            <h2 style="border:none; font-size: 1.6rem; margin-top: 30px; justify-content: center;">Will you be my Valentine?</h2>
+            
+            <div style="position: relative; height: 100px; display: flex; justify-content: center; align-items: center;">
+                <button class="btn" id="yes-btn" onclick="celebrate()">YES - EXECUTE AGREEMENT</button>
+                <button id="no-btn" class="btn" onmouseover="dodge()">NO</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const messages = [
+        "Error: Material misstatement of heart detected.",
+        "Exception: Devotion levels exceed 100%.",
+        "Control Failure: Rejection is a significant deficiency.",
+        "Variance: Your heart meant to click 'Yes'.",
+        "Audit Note: Client is too cute to say no.",
+        "Statutory Requirement: A 'Yes' is mandatory.",
+        "Going Concern Warning: Life without you is unsustainable."
+    ];
+
+    function updateProgress() {
+        const steps = document.querySelectorAll('.audit-step');
+        const name = document.getElementById('reviewer-name').value;
+        let checked = 0;
+        steps.forEach(s => { if(s.checked) checked++; });
+        document.getElementById('progress-text').innerText = `Verification: ${Math.round((checked/6)*100)}%`;
+        document.getElementById('submit-audit').disabled = !(checked === 6 && name.trim().length > 1);
+    }
+
+    function showOpinion() { 
+        document.getElementById('opinion-section').style.display = 'block'; 
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); 
+    }
+
+    function dodge() {
+        const btn = document.getElementById('no-btn');
+        btn.innerText = messages[Math.floor(Math.random() * messages.length)];
+        btn.style.position = 'fixed';
+        btn.style.left = Math.random() * (window.innerWidth - 150) + 'px';
+        btn.style.top = Math.random() * (window.innerHeight - 60) + 'px';
+    }
+
+
+    function celebrate() {
+        alert("AUDIT SUCCESSFUL: You are now my Permanent Valentine ❤️");
+        const egg = document.getElementById('easter-egg-note');
+        egg.style.opacity = "1";
+        egg.style.backgroundColor = "#fff0f3";
+        egg.style.padding = "10px";
+        egg.innerHTML = "✨ <strong>FINAL MEMO:</strong> Partner Shanvi has certified Malay as the 'Highest Value Asset' in the 2026 portfolio. ❤️";
+        
+        document.getElementById('shout-banner').style.display = 'block';
+        const heart = confetti.shapeFromPath({ path: 'M21.1,18.3c4.1-4,7-7.2,7-10.4c0-3.3-2.7-6-6-6c-2.4,0-4.6,1.4-5.6,3.6C15.5,3.3,13.3,1.9,10.9,1.9c-3.3,0-6,2.7-6,6c0,3.2,2.9,6.4,7,10.4l5.6,5.4L21.1,18.3z' });
+        const end = Date.now() + 8000;
+        (function frame() {
+            confetti({ particleCount: 3, angle: 90, spread: 100, origin: { x: Math.random(), y: 1.1 }, shapes: [heart], colors: ['#ff4d6d', '#ffccd5', '#590d22'], gravity: -0.2, scalar: 3 });
+            if (Date.now() < end) requestAnimationFrame(frame);
+        }());
+    }
+</script>
+</body>
+</html>
